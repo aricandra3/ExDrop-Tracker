@@ -1,0 +1,61 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AirdropStatus {
+  OPEN
+  UPCOMING
+  CLOSED
+  UNKNOWN
+}
+
+enum AirdropStage {
+  TODO
+  IN_PROGRESS
+  COMPLETE
+}
+
+model Airdrop {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  title        String
+  chain        String
+  category     String
+  status       AirdropStatus
+  description  String?
+  howTo        String?
+  siteUrl      String?
+  claimUrl     String?
+  estValueUsd  Int?
+  createdAt    DateTime      @default(now())
+
+  // NEW
+  stage        AirdropStage  @default(TODO)
+  stepsTotal   Int           @default(0)
+  stepsDone    Int           @default(0)
+
+  tags         AirdropTag[]
+
+  @@index([stage])
+}
+model Tag {
+  id    String       @id @default(cuid())
+  name  String       @unique
+  drops AirdropTag[]
+}
+
+model AirdropTag {
+  airdrop   Airdrop @relation(fields: [airdropId], references: [id])
+  airdropId String
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  tagId     String
+
+  @@id([airdropId, tagId])
+}
+

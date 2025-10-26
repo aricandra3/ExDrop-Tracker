@@ -1,0 +1,18 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+
+  // opsi: matikan validator CSS bawaan agar tidak tabrakan
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+
+  // paksa file .css dikenali sebagai tailwindcss untuk better hints
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // nice-to-have
+  "editor.quickSuggestions": { "strings": true }
+}
